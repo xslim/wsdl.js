@@ -1,0 +1,16 @@
+{
+  "tpl": "objc",
+  "intExt": "h",
+  "impExt": "m",
+  "typeMap": {
+    "long": "long",
+    "int": "int"
+  },
+  "typeMapStrong": {
+    "string": "NSString",
+    "number": "NSNumber",
+    "dateTime": "NSDate",
+    "base64Binary": "NSData /* base64 */",
+    "any2anyTypeMap": "NSDictionary"
+  }
+}
