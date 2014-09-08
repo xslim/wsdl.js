@@ -4,7 +4,8 @@
   "impExt": "m",
   "typeMap": {
     "long": "long",
-    "int": "int"
+    "int": "int",
+    "short": "short int"
   },
   "typeMapStrong": {
     "string": "NSString",
