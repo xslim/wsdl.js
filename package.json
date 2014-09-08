@@ -1,0 +1,25 @@
+{
+  "name": "wsdl",
+  "author": "xslim",
+  "description": "Consumes a WSDL file and produces a classes library",
+  "version": "0.0.3",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xslim/wsdl.git"
+  },
+  "keywords": [
+    "soap",
+    "wsdl"
+  ],
+  "dependencies": {
+    "handlebars": "*",
+    "request": ">=2.16.6",
+    "xml2json": ">=0.3.2"
+  },
+  "engines": {
+    "node": "*"
+  },
+  "preferGlobal": "true",
+  "bin" : { "ivory" : "./wsdl.js" }
+}
