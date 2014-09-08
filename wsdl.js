@@ -479,28 +479,35 @@ function arrayUnique(a) {
     }, []);
 };
 
-function type2code(t) {
+function type2code(pd) {
   //console.log(dump(t)+"\n")
 
-  var type = t["type"]
-  delete t.type
+  var type = pd["type"]
 
-  var required = t["required"]
-  delete t.required
+  if (wsdl.simpleTypes[type]) {
+    var st = wsdl.simpleTypes[type]
+    type = st.propertyDefinition[type].type
+    delete st.propertyDefinition
+    pd.wsdlDefinition = st
+  }
+
+  delete pd.type
+
+  var required = pd["required"]
+  delete pd.required
 
   type = type.replace("Type", "")
-  var name = type
   var strong = true
   var isNative = false
   var ptr = true
   var namespace = ''
 
   if (config['typeMap'][type]) {
-    name = config['typeMap'][type]
+    type = config['typeMap'][type]
     isNative = true
     strong = false
   } else if (config['typeMapStrong'][type]) {
-    name = config['typeMapStrong'][type]
+    type = config['typeMapStrong'][type]
     isNative = true
     strong = true
   }
@@ -511,57 +518,63 @@ function type2code(t) {
 
   var comment = ""
 
-  delete t.wsdlDefinition.minOccurs
-  delete t.wsdlDefinition.name
-  delete t.wsdlDefinition.nillable
+  if (pd.wsdlDefinition['xsd:simpleType']) {
+    pd.wsdlDefinition['xsd:restriction'] = pd.wsdlDefinition['xsd:simpleType']['xsd:restriction']
+    delete pd.wsdlDefinition['xsd:simpleType']
+  }
+
+  delete pd.wsdlDefinition.minOccurs
+  delete pd.wsdlDefinition.name
+  delete pd.wsdlDefinition.nillable
 
 
 
-  if (Object.keys(t.wsdlDefinition).length > 0) {
+  if (Object.keys(pd.wsdlDefinition).length > 0) {
 
-    if (t.wsdlDefinition["xsd:restriction"] && Object.keys(t.wsdlDefinition["xsd:restriction"]).length > 0) {
-      if (t.wsdlDefinition.type == t.wsdlDefinition["xsd:restriction"]["base"]) {
-        delete t.wsdlDefinition["xsd:restriction"]["base"]
+    if (pd.wsdlDefinition["xsd:restriction"] && Object.keys(pd.wsdlDefinition["xsd:restriction"]).length > 0) {
+      if (pd.wsdlDefinition.type == pd.wsdlDefinition["xsd:restriction"]["base"]) {
+        delete pd.wsdlDefinition["xsd:restriction"]["base"]
       }
-      var xsd_enumeration = t.wsdlDefinition["xsd:restriction"]["xsd:enumeration"]
-      if (xsd_enumeration.length > 0) {
+      var xsd_enumeration = pd.wsdlDefinition["xsd:restriction"]["xsd:enumeration"]
+      if (xsd_enumeration && xsd_enumeration.length > 0) {
         var enumeration = []
         for (var k in xsd_enumeration) {
           enumeration.push(xsd_enumeration[k]["value"])
         }
         comment += "enumeration: " + enumeration.join(" | ") + "\n"
-        delete t.wsdlDefinition["xsd:restriction"]["xsd:enumeration"]
+        delete pd.wsdlDefinition["xsd:restriction"]["xsd:enumeration"]
       }
     }
 
-    if (!(t.wsdlDefinition.type.indexOf("xsd:") === 0)) {
-      namespace = getNamespace(t.wsdlDefinition.type)+':'
+    if (!(pd.wsdlDefinition.type.indexOf("xsd:") === 0)) {
+      namespace = getNamespace(pd.wsdlDefinition.type)+':'
     }
-    delete t.wsdlDefinition.type
+    delete pd.wsdlDefinition.type
 
-    if (t.wsdlDefinition["xsd:restriction"] && Object.keys(t.wsdlDefinition["xsd:restriction"]).length == 0) {
-      delete t.wsdlDefinition["xsd:restriction"]
+    if (pd.wsdlDefinition["xsd:restriction"] && Object.keys(pd.wsdlDefinition["xsd:restriction"]).length == 0) {
+      delete pd.wsdlDefinition["xsd:restriction"]
     }
 
-    if (Object.keys(t.wsdlDefinition).length > 0) {
-      comment += dump(t.wsdlDefinition) + "\n"
+    if (Object.keys(pd.wsdlDefinition).length > 0) {
+      comment += dump(pd.wsdlDefinition) + "\n"
     }
   }
-  delete t.wsdlDefinition
+  delete pd.wsdlDefinition
 
-  if (t.mask == 6) {
-    delete t.mask
+  if (pd.mask == 6) {
+    delete pd.mask
   }
 
-  if (Object.keys(t).length > 0) { comment += dump(t) + "\n" }
+  if (Object.keys(pd).length > 0) { comment += dump(pd) + "\n" }
   if (required) { comment += "required: " + required + "\n"}
 
+
   if (!isNative) {
-    name = config.classPrefix+name+"Type"
+    type = config.classPrefix+type+"Type"
   }
 
   return {
-    type: name,
+    type: type,
     strong: strong,
     ptr: ptr,
     required: required,
@@ -720,6 +733,14 @@ function genTypeClasses() {
   } catch(e) { }
 
   for (var key in classes2gen['type']) {
+
+    var typeClass = classes2gen['type'][key]
+    var propertyDefinition = typeClass['propertyDefinition']
+
+    if (wsdl.simpleTypes[key]) {
+      continue
+    }
+
     var className = config.classPrefix+key+classSuffix
     var rootName = lowercaseFirstLetter(key)
     var namespace = (classes2gen.namespaces[rootName]) ? classes2gen.namespaces[rootName]+':' : ''
@@ -735,9 +756,6 @@ function genTypeClasses() {
       includes:[],
       properties:[]
     }
-
-
-    var propertyDefinition = classes2gen['type'][key]['propertyDefinition']
 
     for (var p_key in propertyDefinition) {
       var t = type2code(propertyDefinition[p_key])
