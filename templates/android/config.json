@@ -1,0 +1,16 @@
+{
+  "tpl": "android",
+  "intExt": "",
+  "impExt": "java",
+  "typeMap": {
+    "long": "long",
+    "int": "int"
+  },
+  "typeMapStrong": {
+    "string": "String",
+    "number": "Long",
+    "dateTime": "Date",
+    "base64Binary": "byte[] /* base64 */",
+    "any2anyTypeMap": "HashMap"
+  }
+}
