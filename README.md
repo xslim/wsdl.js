@@ -1,8 +1,12 @@
-wsdl.js
-=======
+# wsdl.js
 
 WSDL class generator
 
+## Installation
+* Use Node.JS 0.10+
+* run `npm install`
+
+## Usage
 
 * `./wsdl.js`
 
@@ -26,3 +30,6 @@ Processing Payment.wsdl
   template: ios
   class prefix: ADY
 ```
+
+## Notes
+* Based on `ivory`
