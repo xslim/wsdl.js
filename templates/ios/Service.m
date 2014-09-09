@@ -3,8 +3,6 @@
 /*
 namespace: {{namespace}}
 serviceUrl: {{serviceUrl}}
-
-{{{xmlns}}}
 */
 
 @interface {{config.classPrefix}}{{name}}Service ()

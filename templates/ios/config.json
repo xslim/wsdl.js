@@ -1,7 +1,7 @@
 {
   "tpl": "objc",
-  "intExt": "h",
-  "impExt": "m",
+  "intExt": ".h",
+  "impExt": ".m",
   "typeMap": {
     "long": "long",
     "int": "int",

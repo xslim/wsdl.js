@@ -1,7 +1,7 @@
 {
   "tpl": "android",
-  "intExt": "",
-  "impExt": "java",
+  "intExt": ".java",
+  "impExt": "Impl.java",
   "typeMap": {
     "long": "long",
     "int": "int"

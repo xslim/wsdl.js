@@ -3,10 +3,33 @@
 wsdl.js
 *******************************************************************/
 
+var program = require('commander');
 var parser = require('xml2json');
 var fs = require('fs');
 var path = require('path')
 var Handlebars = require('handlebars');
+
+
+program
+    .version('0.0.1')
+    .usage('[options] <file>')
+    .option('-t, --template [name]', 'Use template [ios]', 'ios')
+    .option('-p, --prefix [prefix]', 'Class prefix to use', '')
+    .option('-o, --output [directory]', 'Output to specified directory [out]', 'out')
+    .parse(process.argv);
+
+if (!program.args.length) {
+    program.help();
+    return
+}
+
+var inputFile = program.args[0]
+var outputDir = program.output
+
+console.log("Processing "+inputFile)
+console.log("  output: "+outputDir)
+console.log("  template: "+program.template)
+console.log("  class prefix: "+program.prefix)
 
 var Modeler = {};
 
@@ -36,22 +59,10 @@ var classes2gen = {
 
 var typeMap = { };
 
-var template = process.argv[2]
-var classPrefix = 'ADY'
-
-var inputFile = process.argv[3]
-var outputDir = path.basename(inputFile, path.extname(inputFile))
-
-if (process.argv.length != 4) {
-  console.log("USAGE: wsdl.js TPL FILE")
-  return
-}
-
-
-var tplDir = __dirname+'/templates/'+template+'/';
+var tplDir = __dirname+'/templates/'+program.template+'/';
 
 var config = require(tplDir+'config')
-config['classPrefix'] = classPrefix
+config['classPrefix'] = program.prefix
 
 var xmlWsdlDefinition = fs.readFileSync(inputFile);
 var json = JSON.parse(parser.toJson(xmlWsdlDefinition));
@@ -625,29 +636,33 @@ function initTemplate(name) {
   }
 
   if (config.intExt.length > 0) {
-    var tplInt = fs.readFileSync(tplDir+name+'.'+config.intExt, 'utf8');
-    tpl.int = Handlebars.compile(tplInt)
+    try {
+      var tplFile = fs.readFileSync(tplDir+name+config.intExt, 'utf8');
+      tpl.int = Handlebars.compile(tplFile)
+    } catch(e) { }
   }
 
   if (config.impExt.length > 0) {
-    var tplImp = fs.readFileSync(tplDir+name+'.'+config.impExt, 'utf8');
-    tpl.imp = Handlebars.compile(tplImp)
+    try {
+      var tplFile = fs.readFileSync(tplDir+name+config.impExt, 'utf8');
+      tpl.imp = Handlebars.compile(tplFile)
+    } catch(e) { }
   }
 
   return tpl
 }
 
 function genClass(tpl, path, className, data) {
-  if (config.intExt.length > 0) {
-    var fileName = outputDir+path+className+'.'+config.intExt
+  if (tpl.int) {
+    var fileName = outputDir+path+className+config.intExt
     try {
       fs.unlinkSync(fileName, 10000);
     } catch(e) { }
     fs.writeFile(fileName, tpl.int(data));
   }
 
-  if (config.impExt.length > 0) {
-    var fileName = outputDir+path+className+'.'+config.impExt
+  if (tpl.imp) {
+    var fileName = outputDir+path+className+config.impExt
     try {
       fs.unlinkSync(fileName, 10000);
     } catch(e) { }
@@ -760,6 +775,7 @@ function genTypeClasses() {
     for (var p_key in propertyDefinition) {
       var t = type2code(propertyDefinition[p_key])
       t['name'] = lowercaseFirstLetter(p_key)
+      t['upperCaseName'] = capitaliseFirstLetter(p_key)
       t['namespace'] = namespace
 
       data.properties.push(t)
@@ -804,6 +820,7 @@ function genRequestClasses() {
       for (var p_key in propertyDefinition) {
         var t = type2code(propertyDefinition[p_key])
         t['name'] = lowercaseFirstLetter(p_key)
+        t['upperCaseName'] = capitaliseFirstLetter(p_key)
         t['namespace'] = namespace
 
         data.properties.push(t)
@@ -849,6 +866,7 @@ function genResultClasses() {
       for (var p_key in propertyDefinition) {
         var t = type2code(propertyDefinition[p_key])
         t['name'] = lowercaseFirstLetter(p_key)
+        t['upperCaseName'] = capitaliseFirstLetter(p_key)
 
         data.properties.push(t)
         if (!t.native) {
