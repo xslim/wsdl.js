@@ -49,14 +49,24 @@ public void getPropertyInfo(int index, Hashtable arg1, PropertyInfo info) {
     }
 }
 
+public Object getValueForType(Object value, String type) {
+    if(type == 'Long') {
+	return Long.parseLong(value.toString());	
+    } else if(type == 'Integer') {
+	return Integer.parseInt(value.toString());
+    } else {
+	String.valueOf(value);
+    }
+}
+
 public void setProperty(int index, Object value) {
     switch(index) {
 	{{#each properties}}
 	case {{@index}}:
-	    {{#if type == 'Long'}}
-	    {{this.name}} = {{type}}.parseLong(value.toString());
+	    {{#if native}}
+	    {{this.name}} = getValueForType(value, {{type}});
 	    {{else}}
-            {{this.name}} = String.valueOf(value);
+            {{this.name}} = ({{type}})value;
 	    {{/if}}  
 	{{/each}}
         default: break;
