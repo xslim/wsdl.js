@@ -731,6 +731,7 @@ function genServiceClasses() {
     }
 
     data.includes = arrayUnique(data.includes)
+    data['numberOfProperties'] = data.properties.length;
     genClass(tpl, '', className, data)
 
     // end loop
@@ -785,6 +786,7 @@ function genTypeClasses() {
     }
 
     data.includes = arrayUnique(data.includes)
+    data['numberOfProperties'] = data.properties.length
     genClass(tpl, path, className, data)
 
   }
@@ -835,6 +837,7 @@ function genRequestClasses() {
 
 
     data.includes = arrayUnique(data.includes)
+    data['numberOfProperties'] = data.properties.length
     genClass(tpl, path, className, data)
 
   }
@@ -879,6 +882,7 @@ function genResultClasses() {
 
 
     data.includes = arrayUnique(data.includes)
+    data['numberOfProperties'] = data.properties.length
     genClass(tpl, path, className, data)
 
   }
