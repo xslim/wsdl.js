@@ -11,6 +11,7 @@
     "number": "Long",
     "dateTime": "Date",
     "base64Binary": "byte[] /* base64 */",
-    "any2anyTypeMap": "HashMap"
+    "any2anyTypeMap": "HashMap",
+    "anyType2anyTypeMap": "HashMap"
   }
 }

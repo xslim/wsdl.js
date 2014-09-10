@@ -24,7 +24,7 @@ public Object getProperty(int arg0) {
     switch(arg0) {
         {{#each properties}}
 	    case {{@index}}:
-		return {{this}};	
+		return {{this.name}};	
 	{{/each}}
 	default: break;
     }
@@ -41,10 +41,10 @@ public void getPropertyInfo(int index, Hashtable arg1, PropertyInfo info) {
 	 case {{@index}}:
 	    {{#if native}}
 	    info.type = PropertyInfo.{{upperCaseType}}_CLASS;
-	    {{else}}    
+	    {{else}}
 	    // complex type: {{type}}
             {{/if}}
-            	
+
 	{{/each}}
     }
 }

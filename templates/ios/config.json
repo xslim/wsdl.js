@@ -12,6 +12,7 @@
     "number": "NSNumber",
     "dateTime": "NSDate",
     "base64Binary": "NSData /* base64 */",
-    "any2anyTypeMap": "NSDictionary"
+    "any2anyTypeMap": "NSDictionary",
+    "anyType2anyTypeMap": "NSDictionary"
   }
 }

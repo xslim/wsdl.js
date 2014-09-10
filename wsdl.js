@@ -698,7 +698,8 @@ function genServiceClasses() {
   for (var key in wsdl.services) {
     var className = config.classPrefix+key+classSuffix
 
-    var service = wsdl.services[key]Typedata = {
+    var service = wsdl.services[key]
+    data = {
       config: config,
       name: key,
       namespace: service.namespace,

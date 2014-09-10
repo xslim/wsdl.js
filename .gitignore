@@ -26,6 +26,7 @@ node_modules
 
 .DS_Store
 *~
+*.swp
 *.wsdl
 out
-*.swp
+out.zip
