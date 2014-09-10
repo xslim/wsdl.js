@@ -11,11 +11,11 @@ private {{type}} {{name}};
 
 
 public void set{{upperCaseName}}({{type}} {{name}}) {
-	this.{{name}} = {{name}};
+    this.{{name}} = {{name}};
 }
 
 public String get{{upperCaseName}}() {
-	return this.{{name}};
+    return this.{{name}};
 }
 
 {{/properties}}
@@ -23,8 +23,8 @@ public String get{{upperCaseName}}() {
 public Object getProperty(int arg0) {
     switch(arg0) {
         {{#each properties}}
-	    case {{@index}}:
-		return {{this.name}};	
+	case {{@index}}:
+	    return {{this.name}};	
 	{{/each}}
 	default: break;
     }
@@ -44,8 +44,22 @@ public void getPropertyInfo(int index, Hashtable arg1, PropertyInfo info) {
 	    {{else}}
 	    // complex type: {{type}}
             {{/if}}
-
 	{{/each}}
+        default: break;
+    }
+}
+
+public void setProperty(int index, Object value) {
+    switch(index) {
+	{{#each properties}}
+	case {{@index}}:
+	    {{#if type == 'Long'}}
+	    {{this.name}} = {{type}}.parseLong(value.toString());
+	    {{else}}
+            {{this.name}} = String.valueOf(value);
+	    {{/if}}  
+	{{/each}}
+        default: break;
     }
 }
 
