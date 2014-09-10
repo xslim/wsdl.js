@@ -1,4 +1,4 @@
-public class {{name}}Type {
+public class {{name}}Type implements KvmSerializable {
 
 
 {{#properties}}
@@ -8,8 +8,9 @@ public class {{name}}Type {
 */
 {{/if}}
 private {{type}} {{name}};
+{{/properties}} 
 
-
+{{#properties}}
 public void set{{upperCaseName}}({{type}} {{name}}) {
     this.{{name}} = {{name}};
 }
