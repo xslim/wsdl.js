@@ -586,6 +586,7 @@ function type2code(pd) {
 
   return {
     type: type,
+    upperCaseType: type.toUpperCase(),
     strong: strong,
     ptr: ptr,
     required: required,
@@ -697,9 +698,7 @@ function genServiceClasses() {
   for (var key in wsdl.services) {
     var className = config.classPrefix+key+classSuffix
 
-    var service = wsdl.services[key]
-
-    var data = {
+    var service = wsdl.services[key]Typedata = {
       config: config,
       name: key,
       namespace: service.namespace,

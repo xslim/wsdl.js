@@ -20,24 +20,33 @@ public String get{{upperCaseName}}() {
 
 {{/properties}}
 
-
-public String toSoapXml {
-    NSString *tpl = ADYStringMultiline(
-{{#properties}}
-  {{#if native}}
-  \{{# {{name}} }}<{{namespace}}{{name}}>\{{ {{name}} }}</{{namespace}}{{name}}>\{{/ {{name}} }}
-  {{else}}
-  \{{# {{name}} }}
-  <{{namespace}}{{name}}>
-  \{{ {{name}}.toSoapXml() }}
-  </{{namespace}}{{name}}>
-  \{{/ {{name}} }}
-  {{/if}}
-{{/properties}}
-    );
-    NSString *xml = [ADYTemplate renderObject:self fromString:tpl];
-    return xml;
+public Object getProperty(int arg0) {
+    switch(arg0) {
+        {{#each properties}}
+	    case {{@index}}:
+		return {{this}};	
+	{{/each}}
+	default: break;
+    }
+    return null;
 }
 
+public int getPropertyCount() {
+    return {{numberOfProperties}};
+}
+
+public void getPropertyInfo(int index, Hashtable arg1, PropertyInfo info) {
+    switch(index) {
+	{{#each properties}}
+	 case {{@index}}:
+	    {{#if native}}
+	    info.type = PropertyInfo.{{upperCaseType}}_CLASS;
+	    {{else}}    
+	    // complex type: {{type}}
+            {{/if}}
+            	
+	{{/each}}
+    }
+}
 
 }
