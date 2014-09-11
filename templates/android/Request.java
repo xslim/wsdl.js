@@ -60,15 +60,18 @@ public class {{name}} implements KvmSerializable {
         }
     }
 
-    public void setProperty(int index, Object value) {                                                            switch(index) {                                                                                           {{#each properties}}                                                                             
-        case {{@index}}:                                                                                 
-            {{#if native}}                                                                               
-            {{this.name}} = getValueForType(value, {{type}});                                            
-            {{else}}                                                                                     
-            {{this.name}} = ({{type}})value;                                                             
-            {{/if}}                                                                                      
-        {{/each}}                                                                                        
-        default: break;                                                                                  
-        }                                                                                                     }  
+    public void setProperty(int index, Object value) {
+        switch(index) {
+        {{#each properties}}
+        case {{@index}}:
+            {{#if native}}
+            {{this.name}} = getValueForType(value, {{type}});
+            {{else}}
+            {{this.name}} = ({{type}})value;
+            {{/if}}  
+        {{/each}}                                                                                                 default:
+            break;
+        } 
+    }
 
 }
