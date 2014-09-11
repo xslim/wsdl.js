@@ -1,22 +1,22 @@
-#import "{{config.classPrefix}}{{name}}.h"
+public class {{name}} implements KvmSerializable {
 
-@interface {{config.classPrefix}}{{name}} ()
-@end
+    {{#properties}}
+    {{#if comment}}
+    /**
+    {{{comment}}}
+    */
+    {{/if}}
+    private {{type}} {{name}};
+    {{/properties}}
 
-@implementation {{config.classPrefix}}{{name}}
+    {{#properties}}
+    public void set{{upperCaseName}}({{type}} {{name}}) {
+        this.{{name}} = {{name}};
+    }
 
-- (void)initProperty:(NSString *)prop {
-{{#properties}}
-  {{#if native}}
-  {{else}}
-  if ([prop isEqual:@"{{name}}"]) {
-    self.{{name}} = {{type}}.new;
-  }
-  {{/if}}
-{{/properties}}
+    public String get{{upperCaseName}}() {
+        return this.{{name}};
+    }
+
+    {{/properties}}
 }
-
-- (void)initProperties {
-}
-
-@end

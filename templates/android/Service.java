@@ -1,11 +1,10 @@
+public interface {{name}}Service {
 
-public class {{name}}Service {
-
-  {{#operations}}
-  /*
-  response: {{response}}
-  */
-  public void {{name}}(request <{{request}}>, completionHandler);
-  {{/operations}}
+    {{#operations}}
+    /*
+     response: {{response}}
+    */
+    public {{response}} {{name}}({{request}} request);
+    {{/operations}}
 
 }
