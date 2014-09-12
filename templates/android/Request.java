@@ -15,7 +15,7 @@ public class {{name}} implements KvmSerializable {
         this.{{name}} = {{name}};
     }
 
-    public String get{{upperCaseName}}() {
+    public {{type}} get{{upperCaseName}}() {
         return this.{{name}};
     }
 
@@ -43,21 +43,11 @@ public class {{name}} implements KvmSerializable {
             {{#if native}}
             info.type = PropertyInfo.{{upperCaseType}}_CLASS;
             {{else}}
-            infoType = new {{type}}.getClass();
+            info.type = new {{type}}().getClass();
             {{/if}}
         {{/each}} 
         default: break;
         }   
-    }
-
-    public Object getValueForType(Object value, String type) {
-        if(type == 'Long') {
-            return Long.parseLong(value.toString());
-        } else if(type == 'Integer') {
-            return Integer.parseInt(value.toString());
-        } else {
-            String.valueOf(value);
-        }
     }
 
     public void setProperty(int index, Object value) {
@@ -65,11 +55,12 @@ public class {{name}} implements KvmSerializable {
         {{#each properties}}
         case {{@index}}:
             {{#if native}}
-            {{this.name}} = getValueForType(value, {{type}});
+            {{this.name}} = new {{firstLetterUpperCaseType}}(value.toString());
             {{else}}
             {{this.name}} = ({{type}})value;
             {{/if}}  
-        {{/each}}                                                                                                 default:
+        {{/each}}
+        default:
             break;
         } 
     }

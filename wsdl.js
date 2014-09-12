@@ -587,6 +587,7 @@ function type2code(pd) {
   return {
     type: type,
     upperCaseType: type.toUpperCase(),
+    firstLetterUpperCaseType: capitaliseFirstLetter(type),
     strong: strong,
     ptr: ptr,
     required: required,
