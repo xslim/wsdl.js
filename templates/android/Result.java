@@ -1,4 +1,4 @@
-public class {{name}} implements KvmSerializable {
+public class {{name}} {
 
     {{#properties}}
     {{#if comment}}
@@ -14,7 +14,7 @@ public class {{name}} implements KvmSerializable {
         this.{{name}} = {{name}};
     }
 
-    public String get{{upperCaseName}}() {
+    public {{type}} get{{upperCaseName}}() {
         return this.{{name}};
     }
 

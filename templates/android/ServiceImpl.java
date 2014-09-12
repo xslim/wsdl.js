@@ -1,10 +1,3 @@
-#import "{{name}}ServiceImp.java"
-
-/*
-namespace: {{namespace}}
-serviceUrl: {{serviceUrl}}
-*/
-
 public class {{name}}ServiceImpl implements {{name}}Service {
 
     private final String NAMESPACE = "{{namespace}}";
@@ -14,8 +7,8 @@ public class {{name}}ServiceImpl implements {{name}}Service {
     /*
     response: {{response}}
     */
-    public SoapResponse {{name}}({{../config.classPrefix}}{{request}} request) {
-	    final String METOD_NAME = "{{name}}";  
+    public SoapObject {{name}}({{../config.classPrefix}}{{request}} request) {
+	    final String METHOD_NAME = "{{name}}";  
 	    final String SOAP_ACTION = "{{name}}";
 
 	    SoapObject soapObjectRequest = new SoapObject(NAMESPACE, METHOD_NAME);
@@ -33,7 +26,7 @@ public class {{name}}ServiceImpl implements {{name}}Service {
 	    envelope.addMapping(NAMESPACE, 
                             "{{../config.classPrefix}}{{request}}", 
                             new {{../config.classPrefix}}{{request}}().getClass());
-        AndroidHttpTransport androidHttpTransport = new AndroidHttpTransport(URL);
+        HttpTransportSE androidHttpTransport = new HttpTransportSE(URL);
 
 	    try{
 	        androidHttpTransport.call(SOAP_ACTION, envelope);

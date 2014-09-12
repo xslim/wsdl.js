@@ -4,7 +4,8 @@
   "impExt": "Impl.java",
   "typeMap": {
     "long": "long",
-    "int": "Integer"
+    "int": "Integer",
+    "short": "Integer"
   },
   "typeMapStrong": {
     "string": "String",

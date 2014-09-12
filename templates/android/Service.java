@@ -4,7 +4,7 @@ public interface {{name}}Service {
     /*
      response: {{response}}
     */
-    public {{response}} {{name}}({{request}} request);
+    public SoapObject {{name}}({{request}} request);
     {{/operations}}
 
 }
