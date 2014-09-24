@@ -1,5 +1,9 @@
 #import "{{config.classPrefix}}{{name}}.h"
 
+{{#includes}}
+#import "{{this}}.h"
+{{/includes}}
+
 @interface {{config.classPrefix}}{{name}} ()
 @end
 

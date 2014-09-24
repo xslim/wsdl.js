@@ -1,4 +1,9 @@
 #import "{{config.classPrefix}}{{name}}Service.h"
+#import "{{config.classPrefix}}Result.h"
+
+{{#includes}}
+#import "{{../config.classPrefix}}{{this}}.h"
+{{/includes}}
 
 /*
 namespace: {{namespace}}
@@ -25,7 +30,7 @@ serviceUrl: {{serviceUrl}}
                 inputElement:@"{{inputElement}}"
                outputElement:@"{{outputElement}}"
                    namespace:@"{{namespace}}"
-           completionHandler:^(ADYResult *result, NSError *error) {
+           completionHandler:^({{../config.classPrefix}}Result *result, NSError *error) {
         completionHandler((id)result, error);
     }];
 }

@@ -3,9 +3,9 @@
   "intExt": ".h",
   "impExt": ".m",
   "typeMap": {
-    "long": "long",
+    "long": "long long",
     "int": "int",
-    "short": "short int"
+    "short": "int"
   },
   "typeMapStrong": {
     "string": "NSString",

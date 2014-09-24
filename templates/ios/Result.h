@@ -1,7 +1,7 @@
 #import "{{config.classPrefix}}Result.h"
 
 {{#includes}}
-#import "{{this}}.h"
+@class {{this}};
 {{/includes}}
 
 @interface {{config.classPrefix}}{{name}} : {{config.classPrefix}}Result

@@ -1,8 +1,10 @@
 #import "{{config.classPrefix}}Service.h"
 
 {{#includes}}
-#import "{{../config.classPrefix}}{{this}}.h"
+@class {{../config.classPrefix}}{{this}};
 {{/includes}}
+
+
 
 @interface {{config.classPrefix}}{{name}}Service : {{config.classPrefix}}Service
 

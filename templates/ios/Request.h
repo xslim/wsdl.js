@@ -1,7 +1,7 @@
 #import "{{config.classPrefix}}Request.h"
 
 {{#includes}}
-#import "{{this}}.h"
+@class {{this}};
 {{/includes}}
 
 @interface {{config.classPrefix}}{{name}} : {{config.classPrefix}}Request

@@ -1,7 +1,7 @@
 #import "{{config.classPrefix}}Type.h"
 
 {{#includes}}
-#import "{{this}}.h"
+@class {{this}};
 {{/includes}}
 
 @interface {{config.classPrefix}}{{name}}Type : {{config.classPrefix}}Type
