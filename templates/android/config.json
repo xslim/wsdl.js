@@ -4,15 +4,15 @@
   "impExt": "Impl.java",
   "typeMap": {
     "long": "long",
-    "int": "Integer",
-    "short": "Integer"
+    "int": "int",
+    "short": "int"
   },
   "typeMapStrong": {
     "string": "String",
     "number": "Long",
     "dateTime": "Date",
     "base64Binary": "byte[] /* base64 */",
-    "any2anyTypeMap": "HashMap",
-    "anyType2anyTypeMap": "HashMap"
+    "any2anyTypeMap": "Map",
+    "anyType2anyTypeMap": "Map"
   }
 }

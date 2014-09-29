@@ -1,4 +1,6 @@
-public class {{name}}Type implements KvmSerializable {
+import com.samskivert.mustache.Mustache;
+
+public class {{name}}Type {
 
     {{#properties}}
     {{#if comment}}
@@ -19,47 +21,23 @@ public class {{name}}Type implements KvmSerializable {
     }
     {{/properties}}
 
-    public Object getProperty(int arg0) {
-        switch(arg0) {
-        {{#each properties}}
-	    case {{@index}}:
-	        return {{this.name}};	
-	    {{/each}}
-	    default: break;
+    public String toSoapXml() {
+        StringBuilder template = new StringBuilder();
+        {{#properties}}
+        {{#if native}}
+        template.append("\{{# {{name}} }}");
+        template.append("<{{name}}>\{{ {{name}} }}</{{name}}>\n");
+        template.append("\{{/ {{name}} }}");
+        {{else}}
+        if({{name}} != null) {
+            template.append("<{{name}}>\n");
+            template.append({{name}}.toSoapXml() + "\n");
+            template.append("</{{name}}>\n");
         }
-        return null;
-    }
+        {{/if}}
+        {{/properties}}
 
-    public int getPropertyCount() {
-        return {{numberOfProperties}};
-    }
-
-    public void getPropertyInfo(int index, Hashtable arg1, PropertyInfo info) {
-        switch(index) {
-	    {{#each properties}}
-	    case {{@index}}:
-	        {{#if native}}
-	        info.type = PropertyInfo.{{upperCaseType}}_CLASS;
-	        {{else}}
-	        info.type = new {{type}}().getClass();
-            {{/if}}
-	    {{/each}}
-        default: break;
-        }
-    }
-
-    public void setProperty(int index, Object value) {
-        switch(index) {
-	    {{#each properties}}
-	    case {{@index}}:
-	        {{#if native}}
-	        {{this.name}} = new {{firstLetterUpperCaseType}}(value.toString());
-	        {{else}}
-            {{this.name}} = ({{type}})value;
-	        {{/if}}  
-	    {{/each}}
-        default: break;
-        }
+        return Mustache.compiler().compile(template.toString()).execute(this);
     }
 
 }
