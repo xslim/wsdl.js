@@ -22,7 +22,7 @@ WSDL class generator
     -o, --output [directory]  Output to specified directory [out]
 ```
 
-* `./wsdl.js -t ios -p ADY Payment.wsdl`
+* `./wsdl.js -t ios -p ADYAPI Payment.wsdl`
 
 ```
 Processing Payment.wsdl
